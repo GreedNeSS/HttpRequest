@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<div id="message"></div>
+	<script>
+		const message = document.getElementById('message');
+
+		const fetch = url => new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = () => {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						resolve(xhr.responseText);
+					} else {
+						reject(`Status Code: ${xhr.status}`);
+					}
+				}
+			};
+			xhr.open('GET', url, true);
+			xhr.send();
+		});
+
+		// Usage
+
+		fetch('/person')
+			.then(body => message.innerHTML = body)
+			.catch(err => message.innerHTML = err);
+
+		// fetch('/person')
+		// 	.then(body => {
+		// 		console.log({ body });
+		// 		body.json().then(text => {
+		// 			console.log(JSON.stringify(text));
+		// 			message.innerHTML = JSON.stringify(text);
+		// 		}
+		// 		);
+		// 	})
+		// 	.catch(err => message.innerHTML = err);
+	</script>
+</body>
+
+</html>
